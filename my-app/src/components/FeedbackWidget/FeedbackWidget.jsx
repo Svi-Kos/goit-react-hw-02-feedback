@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import FeedbackOptions from '../FeedbackOptions/FeedbackOptions';
 import Statistics from '../Statistics/Statistics';
 import statOptions from '../../statOptions.json';
+import Notification from '../Notification/Notification';
 // import PropTypes from 'prop-types';
 import s from './FeedbackWidget.module.css';
 
-class FeedbackWidget extends React.Component {
+class FeedbackWidget extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
-    total: 0,
-    positivePercentage: 0,
+    // total: 0,
+    // positivePercentage: 0,
+    visible: false,
+  };
+
+  showStatistics = () => {
+    this.setState({ visible: true });
   };
 
   onLeaveFeedback = () => {
@@ -19,8 +25,8 @@ class FeedbackWidget extends React.Component {
       good: prevState.good + 1,
       neutral: prevState.neutral + 1,
       bad: prevState.bad + 1,
-      total: prevState.total + 1,
-      positivePercentage: (prevState.total + 1) * 100,
+      total: prevState.good + prevState.neutral + prevState.bad + 3,
+      positivePercentage: (this.state.good % this.state.total) * 100,
     }));
   };
 
@@ -50,18 +56,26 @@ class FeedbackWidget extends React.Component {
     return (
       <div className={s.feedback}>
         <h2>Please leave feedback</h2>
+
         <FeedbackOptions
           options={statOptions}
           onLeaveFeedback={this.onLeaveFeedback}
+          showStatistics={this.showStatistics}
         />
 
-        <Statistics
-          good={this.state.good}
-          neutral={this.state.neutral}
-          bad={this.state.bad}
-          total={this.state.total}
-          positivePercentage={this.state.positivePercentage}
-        />
+        {!this.state.visible && (
+          <Notification message="No feedback given"></Notification>
+        )}
+
+        {this.state.visible && (
+          <Statistics
+            good={this.state.good}
+            neutral={this.state.neutral}
+            bad={this.state.bad}
+            total={this.state.total}
+            positivePercentage={this.state.positivePercentage}
+          />
+        )}
       </div>
     );
   }
@@ -129,17 +143,3 @@ class FeedbackWidget extends React.Component {
 // };
 
 export default FeedbackWidget;
-
-// <C func={() => {log("render props")}} />
-// class C extends React.Component {
-//    constructor(props){
-//        this.props.func()
-//    }
-//    render() {
-//        return (
-//            <div>
-//                {this.props.func()}
-//            </div>
-//        )
-//    }
-// }
