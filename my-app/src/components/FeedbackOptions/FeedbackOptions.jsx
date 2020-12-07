@@ -10,8 +10,10 @@ class FeedbackOptions extends Component {
             type="button"
             className={s.button}
             key={option.id}
-            onClick={() => this.props.onLeaveFeedback(option.label)}
-            onFocus={this.props.showStatistics}
+            onClick={() => {
+              this.props.onLeaveFeedback(option.label);
+              this.props.showStatistics();
+            }}
           >
             {option.label}
           </button>

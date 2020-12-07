@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+h2,
+h3 {
+  color: #1e90ff;
+}
