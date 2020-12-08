@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import s from '../FeedbackOptions/FeedbackOptions.module.css';
 
 class FeedbackOptions extends Component {
@@ -22,5 +23,14 @@ class FeedbackOptions extends Component {
     );
   }
 }
+
+FeedbackOptions.propTypes = {
+  option: PropTypes.objectOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    }),
+  ),
+};
 
 export default FeedbackOptions;
