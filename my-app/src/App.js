@@ -18,28 +18,15 @@ class App extends Component {
   };
 
   onLeaveFeedback = option => {
-    this.setState(
-      prevState => ({
-        [option]: prevState[option] + 1,
-      }),
-      () => {
-        this.setState(
-          {
-            total: this.state.good + this.state.neutral + this.state.bad,
-          },
-          () => {
-            this.setState(prevState => ({
-              positivePercentage: Math.round(
-                (prevState.good / prevState.total) * 100,
-              ),
-            }));
-          },
-        );
-      },
-    );
+    this.setState(prevState => ({
+      [option]: prevState[option] + 1,
+    }));
   };
 
   render() {
+    const total = this.state.good + this.state.neutral + this.state.bad;
+    const positivePercentage = Math.round((this.state.good / total) * 100);
+
     return (
       <>
         <SectionFeedbackWidget title="Please leave feedback">
@@ -58,8 +45,8 @@ class App extends Component {
               good={this.state.good}
               neutral={this.state.neutral}
               bad={this.state.bad}
-              total={this.state.total}
-              positivePercentage={this.state.positivePercentage}
+              total={total}
+              positivePercentage={positivePercentage}
             />
           )}
         </SectionFeedbackWidget>
